@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<title>Plan d'Action Personnalisé — Mathéo</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg2: #111111;
+    --bg3: #161616;
+    --border: rgba(255,255,255,0.07);
+    --gold: #c9a84c;
+    --gold2: #e8c97a;
+    --text: #e8e4dd;
+    --muted: #7a7570;
+    --accent: rgba(201,168,76,0.12);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #0a0a0a;
+  }
+
+  body {
+    background-color: #0a0a0a;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 80px 24px 60px;
+    position: relative;
+    overflow: hidden;
+    background-color: #0a0a0a;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -20%;
+    right: -10%;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.2s;
+  }
+
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 10vw, 88px);
+    font-weight: 300;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.4s;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(48px, 10vw, 88px);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--gold2);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.5s;
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: var(--muted);
+    max-width: 480px;
+    line-height: 1.8;
+    border-left: 1px solid var(--gold);
+    padding-left: 20px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.7s;
+  }
+
+  .hero-date {
+    margin-top: 48px;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 0.9s;
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease forwards 1.2s;
+  }
+
+  .scroll-hint span { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+
+  @keyframes scrollLine {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+
+  /* ─── SECTIONS ─── */
+  section {
+    padding: 80px 24px;
+    max-width: 720px;
+    margin: 0 auto;
+    background-color: #0a0a0a;
+  }
+
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 300;
+    line-height: 1.2;
+    margin-bottom: 40px;
+    letter-spacing: -0.01em;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background-color: rgba(255,255,255,0.07);
+    margin: 0;
+  }
+
+  /* ─── BILAN GRID ─── */
+  .bilan-grid {
+    display: grid;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .bilan-item {
+    background-color: #111111;
+    padding: 24px;
+    transition: background 0.3s;
+  }
+
+  .bilan-item:hover { background-color: #161616; }
+
+  .bilan-item .label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .bilan-item p {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    opacity: 0.85;
+  }
+
+  /* ─── OBSTACLES ─── */
+  .obstacles-list { display: flex; flex-direction: column; gap: 1px; background: var(--border); }
+
+  .obstacle {
+    background-color: #111111;
+    padding: 28px 24px;
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    gap: 20px;
+    align-items: start;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .obstacle:hover { background-color: #161616; }
+
+  .obstacle-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 36px;
+    font-weight: 300;
+    color: rgba(201,168,76,0.25);
+    line-height: 1;
+    padding-top: 2px;
+    transition: color 0.3s;
+  }
+
+  .obstacle:hover .obstacle-num { color: var(--gold); }
+
+  .obstacle-title {
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+    color: var(--text);
+  }
+
+  .obstacle-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* ─── AXES ─── */
+  .axes-grid { display: flex; flex-direction: column; gap: 16px; }
+
+  .axe-card {
+    border: 1px solid var(--border);
+    background-color: #111111;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, background 0.3s;
+  }
+
+  .axe-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--gold);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.4s ease;
+  }
+
+  .axe-card:hover { border-color: rgba(201,168,76,0.3); background-color: #161616; }
+  .axe-card:hover::before { transform: scaleY(1); }
+
+  .axe-num {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  .axe-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .axe-row { margin-bottom: 12px; }
+
+  .axe-row-label {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .axe-row p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PLAN D'ACTION ─── */
+  .plan-steps { display: flex; flex-direction: column; gap: 0; }
+
+  .plan-step {
+    display: grid;
+    grid-template-columns: 1fr;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--border);
+    position: relative;
+  }
+
+  .plan-step:last-child { border-bottom: none; }
+
+  .step-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+
+  .step-icon {
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+  }
+
+  .step-title { font-size: 14px; font-weight: 500; padding-top: 8px; }
+
+  .step-body { font-size: 13px; color: var(--muted); line-height: 1.7; padding-left: 52px; }
+
+  .step-tag {
+    display: inline-block;
+    margin-left: 52px;
+    margin-top: 8px;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    background: var(--accent);
+    padding: 4px 10px;
+  }
+
+  /* ─── DIFFÉRENCE ─── */
+  .diff-section { background-color: #111111; padding: 80px 24px; }
+  .diff-inner { max-width: 720px; margin: 0 auto; background-color: #111111; }
+
+  .diff-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--border); margin-top: 40px; }
+
+  .diff-item {
+    background-color: #161616;
+    padding: 24px 20px;
+  }
+
+  .diff-item-title {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--gold2);
+    margin-bottom: 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .diff-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* ─── PROCHAINE ÉTAPE ─── */
+  .next-section {
+    padding: 100px 24px;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .next-icon {
+    width: 64px;
+    height: 64px;
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 32px;
+    font-size: 22px;
+  }
+
+  .next-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(28px, 5vw, 40px);
+    font-weight: 300;
+    margin-bottom: 24px;
+    line-height: 1.2;
+  }
+
+  .next-body {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.8;
+    margin-bottom: 40px;
+  }
+
+  .next-box {
+    border: 1px solid rgba(201,168,76,0.2);
+    background-color: rgba(201,168,76,0.08);
+    padding: 28px;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--text);
+    opacity: 0.9;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background-color: #0a0a0a;
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─── MOBILE ─── */
+  @media (max-width: 600px) {
+    html, body { background-color: #0a0a0a; }
+    section { padding: 60px 20px; background-color: #0a0a0a; }
+    .diff-grid { grid-template-columns: 1fr; }
+    .diff-section { padding: 60px 20px; background-color: #111111; }
+    .diff-inner { background-color: #111111; }
+    .hero { padding: 100px 20px 60px; background-color: #0a0a0a; }
+    .next-section { padding: 70px 20px; background-color: #0a0a0a; }
+    .axe-card { padding: 22px 18px; background-color: #111111; }
+    .bilan-item { padding: 20px 18px; background-color: #111111; }
+    .obstacle {
+      padding: 22px 18px;
+      grid-template-columns: 36px 1fr;
+      gap: 14px;
+      background-color: #111111;
+    }
+    .obstacle-num { font-size: 28px; }
+    .step-body { padding-left: 0; margin-top: 8px; }
+    .step-tag { margin-left: 0; }
+    .step-header { gap: 12px; }
+    .plan-step { padding: 20px 0; }
+    .next-box { padding: 22px 18px; }
+    footer { background-color: #0a0a0a; }
+    .diff-item { background-color: #161616; }
+  }
+
+  @media (prefers-color-scheme: dark) {
+    html, body { background-color: #0a0a0a; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-label">Bilan · Appel R1 · 18 Février 2025</div>
+  <div class="hero-title">Plan d'action <em>personnalisé</em></div>
+  <div class="hero-name">Mathéo</div>
+  <p class="hero-sub">Ce document a été élaboré à partir de notre échange du 18 février. Il reflète ta situation spécifique, les blocages identifiés au cours de notre appel, et les leviers prioritaires pour débloquer ta progression en sports de combat et en physique.</p>
+  <div class="hero-date">Confidentiel · Document personnalisé</div>
+  <div class="scroll-hint">
+    <span>Explorer</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SYNTHÈSE ═══════════════════ -->
+<section class="reveal">
+  <div class="section-label">01 — Synthèse</div>
+  <h2 class="section-title">Ta situation <em>aujourd'hui</em></h2>
+
+  <div class="bilan-grid">
+    <div class="bilan-item">
+      <div class="label">Objectif principal</div>
+      <p>Performer en sports de combat — MMA en particulier. Tu ne cherches pas juste un physique, tu veux un corps qui performe intelligemment sur le long terme, sans se blesser et sans sacrifier la progression.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Parcours & contexte</div>
+      <p>18 ans, Bac Pro Commerce en cours, futur BPJEPS orienté coaching et sports de combat. Tu as déjà plusieurs années de muscu derrière toi, un premier coach, un programme acheté, et une vraie réflexion sur la nutrition. Ton niveau de conscience est bien au-dessus de la moyenne pour ton âge.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Ce que tu as déjà mis en place</div>
+      <p>Tu maîtrises les bases : calcul de ton maintien calorique (~3 000-3 200 kcal), notion de surplus/déficit, suivi des protéines, et entraînement MMA régulier en parallèle de la muscu. Tu t'es sorti seul d'une situation difficile laissée par un premier coach qui t'avait rendu trop sec et constamment fatigué.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Déclencheur actuel</div>
+      <p>Une blessure à l'épaule il y a 3-4 semaines a tout déstabilisé : moins de sport, donc moins de dépense, donc tes repères caloriques ne tiennent plus. Tu ne veux pas descendre brutalement les calories, ni trop manger alors que tu t'entraînes moins — et tu n'as pas de méthode précise pour naviguer cette période.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Problème clé identifié</div>
+      <p>Ton suivi du poids est basé sur des mesures journalières isolées, pas sur une moyenne hebdomadaire. Résultat : tu interprètes des fluctuations normales comme des signaux réels, et tu prends des décisions nutritionnelles sur des données incomplètes — ce qui explique tes résultats contradictoires semaine après semaine.</p>
+    </div>
+    <div class="bilan-item">
+      <div class="label">Contexte de vie</div>
+      <p>Études à temps plein, job chez McDo qui démarre, vie sociale active. Tu as conscience que l'alimentation en sortie avec des amis peut faire dérailler le suivi — et tu cherches des stratégies concrètes pour ne pas sacrifier l'un pour l'autre.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ OBSTACLES ═══════════════════ -->
+<section class="reveal">
+  <div class="section-label">02 — Freins</div>
+  <h2 class="section-title">Ce qui <em>limite</em> tes résultats</h2>
+
+  <div class="obstacles-list">
+
+    <div class="obstacle">
+      <div class="obstacle-num">1</div>
+      <div>
+        <div class="obstacle-title">Un suivi du poids sans moyenne — des décisions prises sur du bruit</div>
+        <p class="obstacle-desc">Tu te pèses chaque matin, c'est bien. Mais tu lis chaque valeur comme une vérité absolue. Or le poids corporel fluctue de 0,5 à 2 kg d'un jour à l'autre selon l'hydratation, les repas de la veille, le transit. Semaine dernière à 2 600 kcal ton poids stagnait, cette semaine à 2 800 kcal il chute — ce n'est probablement pas une vraie chute, c'est du bruit statistique que seule une moyenne hebdomadaire peut filtrer.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">2</div>
+      <div>
+        <div class="obstacle-title">Un tracking calorique perfectible sur certains jours</div>
+        <p class="obstacle-desc">Tu sais compter tes calories, mais il y a probablement des jours où le tracking est moins précis — repas au restaurant, repas chez des amis, ou simplement des estimations à l'œil. Ces écarts ponctuels suffisent à fausser ta lecture hebdomadaire et à croire que tu es en maintien alors que tu es en léger déficit, ou l'inverse.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">3</div>
+      <div>
+        <div class="obstacle-title">Aucun protocole pour les périodes de blessure ou de dépense variable</div>
+        <p class="obstacle-desc">Quand tout roule, tu gères. Mais dès qu'un facteur externe change — blessure, semaine plus chargée au travail, moins de sport — tu te retrouves sans repère. Tu n'as pas de système d'ajustement calorique adapté à la dépense réelle du moment. C'est ce qui crée la stagnation et l'incertitude actuelles.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">4</div>
+      <div>
+        <div class="obstacle-title">Un premier coach qui a laissé des séquelles méthodologiques</div>
+        <p class="obstacle-desc">1 600-1 700 kcal en jour de repos avec du MMA le soir et de la muscu le matin — c'était un déficit sévère qui t'a rendu trop sec, épuisé et irrité. Tu as su en sortir seul, mais cette expérience crée une méfiance légitime envers les approches trop restrictives. Il faut un cadre qui te protège de ce type d'erreur à l'avenir.</p>
+      </div>
+    </div>
+
+    <div class="obstacle">
+      <div class="obstacle-num">5</div>
+      <div>
+        <div class="obstacle-title">La double contrainte sport de combat + musculation sans périodisation claire</div>
+        <p class="obstacle-desc">Combiner MMA et musculation intelligemment, c'est une des choses les plus complexes à gérer seul. Les deux ont des demandes énergétiques et de récupération différentes. Sans périodisation adaptée, tu risques soit la sous-performance, soit la blessure — comme tu l'as déjà vécu.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ AXES ═══════════════════ -->
+<section class="reveal">
+  <div class="section-label">03 — Priorités</div>
+  <h2 class="section-title">Tes axes <em>prioritaires</em></h2>
+
+  <div class="axes-grid">
+
+    <div class="axe-card">
+      <div class="axe-num">Axe 01</div>
+      <div class="axe-title">Mettre en place un suivi du poids par moyenne hebdomadaire</div>
+      <div class="axe-row">
+        <div class="axe-row-label">Pourquoi c'est prioritaire pour toi</div>
+        <p>C'est le correctif immédiat à appliquer. Sans cette base, toutes tes décisions nutritionnelles sont potentiellement biaisées. Tu as les connaissances, mais l'outil de lecture est défaillant.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce que ça changerait concrètement</div>
+        <p>Tu saurais enfin avec certitude si tu es vraiment en déficit, en maintien ou en surplus — et tu pourrais ajuster tes calories sur des données fiables plutôt que sur du ressenti ou des fluctuations journalières.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce qui manque pour y arriver seul</div>
+        <p>Un tableau structuré + une règle de lecture claire pour interpréter les variations semaine à semaine et décider quand et comment ajuster les apports.</p>
+      </div>
+    </div>
+
+    <div class="axe-card">
+      <div class="axe-num">Axe 02</div>
+      <div class="axe-title">Construire un protocole calorique adapté à ta dépense variable</div>
+      <div class="axe-row">
+        <div class="axe-row-label">Pourquoi c'est prioritaire pour toi</div>
+        <p>Tu cumules MMA, muscu, et bientôt un job physique. Ta dépense énergétique fluctue énormément selon les jours — un apport fixe ne peut pas convenir. Et ta blessure actuelle le prouve : sans protocole adaptable, tu es bloqué.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce que ça changerait concrètement</div>
+        <p>Progresser même pendant les périodes de blessure ou de moindre activité. Ne plus jamais être dans le flou sur quoi manger quand ta semaine change.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce qui manque pour y arriver seul</div>
+        <p>Un système d'ajustement calorique dynamique qui tient compte de ta dépense réelle semaine par semaine — et non un chiffre fixe calqué sur une semaine type.</p>
+      </div>
+    </div>
+
+    <div class="axe-card">
+      <div class="axe-num">Axe 03</div>
+      <div class="axe-title">Optimiser le tracking en conditions réelles (sorties, repas imprévus)</div>
+      <div class="axe-row">
+        <div class="axe-row-label">Pourquoi c'est prioritaire pour toi</div>
+        <p>Tu ne veux pas sacrifier ta vie sociale — et c'est la bonne approche. Mais sans méthode pour compenser intelligemment les repas du dehors, chaque sortie entre en conflit avec ton objectif.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce que ça changerait concrètement</div>
+        <p>Une alimentation tenable sur le long terme, compatible avec une vie normale à 18 ans. Moins de frustration, moins de guilt après chaque écart.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce qui manque pour y arriver seul</div>
+        <p>Des règles pratiques et personnalisées à appliquer avant, pendant et après les repas à l'extérieur — selon ta tendance alimentaire habituelle.</p>
+      </div>
+    </div>
+
+    <div class="axe-card">
+      <div class="axe-num">Axe 04</div>
+      <div class="axe-title">Périodiser intelligemment musculation et MMA</div>
+      <div class="axe-row">
+        <div class="axe-row-label">Pourquoi c'est prioritaire pour toi</div>
+        <p>Tu veux performer en sport de combat — pas juste avoir un beau physique. Combiner les deux demande une organisation précise des charges, des volumes et des phases de récupération. C'est là que se joue ta progression réelle et la prévention des blessures futures.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce que ça changerait concrètement</div>
+        <p>Progresser en force et en condition physique sans te blesser à nouveau. Arriver en salle de MMA avec de l'énergie plutôt qu'épuisé par une séance de muscu mal placée.</p>
+      </div>
+      <div class="axe-row">
+        <div class="axe-row-label">Ce qui manque pour y arriver seul</div>
+        <p>Un plan structuré qui intègre tes séances MMA comme contraintes fixes, et bâtit la musculation autour — avec des phases adaptées à ta saison et à tes objectifs de compétition.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ PLAN D'ACTION ═══════════════════ -->
+<section class="reveal">
+  <div class="section-label">04 — Plan stratégique</div>
+  <h2 class="section-title">Les actions <em>concrètes</em> à initier</h2>
+
+  <div class="plan-steps">
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">📊</div>
+        <div class="step-title">Créer le tableau de suivi du poids par moyenne hebdomadaire</div>
+      </div>
+      <div class="step-body">Google Sheets, une colonne par jour de la semaine, une colonne moyenne à la fin. Tu te pèses chaque matin à jeun, tu rentres la valeur, et tu lis uniquement la moyenne de fin de semaine. C'est cette moyenne que tu compares d'une semaine à l'autre — pas les valeurs quotidiennes. C'est la première chose à mettre en place, dès aujourd'hui.</div>
+      <div class="step-tag">Action immédiate</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🔧</div>
+        <div class="step-title">Adapter les calories à ta période de blessure</div>
+      </div>
+      <div class="step-body">Pendant la convalescence de l'épaule, ta dépense est réduite. Il faut ajuster tes apports à la baisse de façon progressive et contrôlée — pas brutalement. L'objectif : maintenir les protéines hautes (pour préserver le muscle), réduire légèrement les glucides en proportion de l'activité réduite, et surveiller via ta moyenne de poids hebdomadaire que tu ne prends pas de masse grasse non désirée.</div>
+      <div class="step-tag">Ajustement progressif requis</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🍽️</div>
+        <div class="step-title">Mettre en place une règle de compensation pour les repas extérieurs</div>
+      </div>
+      <div class="step-body">Identifier ton profil habituel en sortie (tendance gras, tendance glucides, portions importantes) et définir une règle simple : ajuster le repas précédent et/ou suivant en conséquence. L'objectif n'est pas d'être parfait ce jour-là — c'est que sur la semaine, la moyenne tienne. Un repas ne détruit pas une semaine bien gérée.</div>
+      <div class="step-tag">Suivi hebdomadaire essentiel</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">🥊</div>
+        <div class="step-title">Structurer la reprise post-blessure de façon progressive</div>
+      </div>
+      <div class="step-body">Ne pas reprendre la musculation upper body avant que l'épaule soit prête — mais ne pas non plus rester inactif. Continuer le bas du corps et la marche, maintenir les séances MMA adaptées selon les douleurs. Définir un protocole de reprise progressive avec des indicateurs clairs pour savoir quand réintroduire les poussées et tirages au-dessus de la tête.</div>
+      <div class="step-tag">Regard extérieur recommandé</div>
+    </div>
+
+    <div class="plan-step">
+      <div class="step-header">
+        <div class="step-icon">📅</div>
+        <div class="step-title">Planifier la périodisation muscu/MMA pour les prochains mois</div>
+      </div>
+      <div class="step-body">Une fois l'épaule guérie, structurer les blocs d'entraînement en tenant compte de tes séances MMA comme priorité. La musculation doit servir la performance en combat, pas entrer en compétition avec elle. Cela demande une planification sur 8 à 12 semaines, avec des phases de charge et de récupération intégrées.</div>
+      <div class="step-tag">Planification sur mesure nécessaire</div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CE QUI FAIT LA DIFFÉRENCE ═══════════════════ -->
+<div class="diff-section reveal">
+  <div class="diff-inner">
+    <div class="section-label">05 — Le facteur décisif</div>
+    <h2 class="section-title">Ce qui fera <em>vraiment</em> la différence</h2>
+    <p style="font-size:14px; color: var(--muted); max-width: 560px; line-height: 1.8; margin-bottom: 0;">Tu as déjà quelque chose que peu de gens ont à 18 ans : la conscience que faire beaucoup sans faire intelligemment mène à la blessure. Tu l'as compris dans ton sport. La prochaine étape, c'est de l'appliquer au niveau de ton plan global.</p>
+
+    <div class="diff-grid">
+      <div class="diff-item">
+        <div class="diff-item-title">Lire les données, pas les émotions</div>
+        <p>Une semaine difficile ne signifie pas que ton plan est mauvais. Seule une lecture objective des moyennes sur plusieurs semaines te permet de savoir si tu dois ajuster ou tenir le cap.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-item-title">S'adapter sans improviser</div>
+        <p>Blessure, semaine chargée au boulot, repas en dehors — ces imprévus ne doivent pas te faire perdre tes repères. Un système robuste intègre ces variations au lieu de les subir.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-item-title">Protéger la récupération autant que l'entraînement</div>
+        <p>En sports de combat, la récupération n'est pas du repos — c'est de l'entraînement. Sous-récupérer avec un volume trop élevé ou des calories trop basses te coûtera plus que ça ne t'apportera.</p>
+      </div>
+      <div class="diff-item">
+        <div class="diff-item-title">Corriger vite, pas trop fort</div>
+        <p>Un ajustement calorique de 100-200 kcal par semaine suffit à réorienter la progression. Les corrections brutales — comme ton premier coach — créent plus de problèmes qu'elles n'en résolvent.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ PROCHAINE ÉTAPE ═══════════════════ -->
+<div style="background-color: #0a0a0a;">
+  <div class="next-section reveal">
+    <div class="next-icon">→</div>
+    <h2 class="next-title">La prochaine étape</h2>
+    <p class="next-body">Tu as les bases théoriques, l'expérience du terrain, et la bonne mentalité. Ce qui te manque, c'est un cadre qui tient sur la durée — surtout dans les périodes de transition comme celle que tu traverses en ce moment.</p>
+
+    <div class="next-box">
+      <strong style="color: var(--gold2); font-size: 13px; letter-spacing: 0.05em; display: block; margin-bottom: 12px;">Ce que ce plan demande pour fonctionner</strong>
+      Ta situation est particulière : tu combines sport de combat, musculation, études et bientôt un travail — avec une blessure en cours de récupération. Chacun de ces éléments interagit avec les autres. Un plan qui n'en tient pas compte globalement produira des résultats partiels au mieux. Ce qu'il faut, c'est un suivi capable de lire tes données semaine après semaine, d'ajuster tes apports et ton programme en temps réel, et de te sortir des zones de flou rapidement — avant que la démotivation ou une nouvelle blessure ne s'installe.
+    </div>
+  </div>
+</div>
+
+<footer>
+  Plan élaboré sur la base de l'échange du 18 février 2025 · Mathéo · Document confidentiel
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.08 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
